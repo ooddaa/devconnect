@@ -5,13 +5,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 // https://express-validator.github.io/docs/
-const { body, check, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
+
 // @route   POST api/users
 // @desc    Register Users
 // @access  Public
-
 router.post('/', [
     check('name', 'name is required').not().isEmpty(),
     check('password', 'Mininum 6 characters').isLength({ min: 6 }),
@@ -19,7 +19,7 @@ router.post('/', [
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array(), smthelse: { lol: 1 } })
+        return res.status(400).json({ errors: errors.array() })
     }
 
     const { name, email, password } = req.body;

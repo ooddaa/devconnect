@@ -9,6 +9,19 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 
+// @route   GET api/users/all
+// @desc    Get all users
+// @access  Public
+router.get('/all', async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        return res.send(users);
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ msg: error.message });
+    }
+})
+
 // @route   POST api/users
 // @desc    Register Users
 // @access  Public
@@ -42,15 +55,15 @@ router.post('/', [
         })
 
         // Compose new user
-        user =  new User({
-            name, 
+        user = new User({
+            name,
             email,
             avatar,
             password
         })
 
         // Encrypt and set user password
-        const salt  = await bcrypt.genSalt(11);
+        const salt = await bcrypt.genSalt(11);
         user.password = await bcrypt.hash(password, salt);
 
         // !WRITE! Save user to DB
@@ -66,8 +79,9 @@ router.post('/', [
                 id: user.id,
             }
         }
+
         const secret = config.get('jwtSecret');
-        jwt.sign(payload, secret, { expiresIn: 36*1e10}, (err, token) => {
+        jwt.sign(payload, secret, { expiresIn: 36 * 1e10 }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
@@ -76,9 +90,6 @@ router.post('/', [
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
-    
-
-    
 })
 
 module.exports = router

@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://<user>:<pass>@oda1.udkui.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "kekek"
-}

@@ -3,6 +3,8 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const request = require('request');
+const config = require('config');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -168,7 +170,7 @@ router.delete('/', auth, async (req, res) => {
 })
 
 // @route   PUT api/profile/experience
-// @desc    Get current users profile
+// @desc    Add user experience
 // @access  Private
 router.put('/experience', [auth,
     check("title", "Title is required").not().isEmpty(),
@@ -219,21 +221,21 @@ router.put('/experience', [auth,
     }
 })
 
-// @route   DELETE api/profile/experience/:experience_id
+// @route   DELETE api/profile/experience/:exp_id
 // @desc    Delete user's experience by its id
 // @access  Private
-router.delete('/experience/:experience_id', auth, async (req, res) => {
+router.delete('/experience/:exp_id', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
         if (!profile) {
-            return res.status(500).json({ msg: 'Profile not found' });
+            return res.status(418).json({ msg: 'Profile not found' });
         }
 
         profile.experience =
-            profile.experience.filter(exp => exp.id !== req.params.experience_id);;
+            profile.experience.filter(exp => exp.id !== req.params.exp_id);;
 
         // this one also works
-        // const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.experience_id);
+        // const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
         // profile.experience.splice(removeIndex, 1);
         await profile.save();
 
@@ -242,6 +244,108 @@ router.delete('/experience/:experience_id', auth, async (req, res) => {
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ msg: error.message });
+    }
+})
+
+// @route   PUT api/profile/education
+// @desc    Add user education
+// @access  Private
+router.put('/education', [auth,
+    check("school", "School is required").not().isEmpty(),
+    check("degree", "Degree is required").not().isEmpty(),
+    check("from", "From which date is required").not().isEmpty(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (!profile) {
+            return res.status(500).json({ msg: 'Profile not found' });
+        }
+
+        const {
+            school,
+            degree,
+            fieldofstudy,
+            from,
+            to,
+            current,
+            description,
+        } = req.body;
+
+        const newEd = {};
+        if (school) newEd.school = school;
+        if (degree) newEd.degree = degree;
+        if (fieldofstudy) newEd.fieldofstudy = fieldofstudy;
+        if (from) newEd.from = from;
+        if (to) newEd.to = to;
+        if (current) newEd.current = current;
+        if (description) newEd.description = description;
+
+        // add to the beginning 
+        profile.education.unshift(newEd);
+
+        // don't forget to save to DB
+        await profile.save();
+
+        return res.send(profile);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ msg: error.message });
+    }
+})
+
+// @route   DELETE api/profile/education/:ed_id
+// @desc    Delete user's education by its id
+// @access  Private
+router.delete('/education/:ed_id', auth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if (!profile) {
+            return res.status(418).json({ msg: 'Profile not found' });
+        }
+
+        profile.education =
+            profile.education.filter(exp => exp.id !== req.params.ed_id);
+
+        // should we inform user that there's no such education to match supplied ed_id?
+
+        await profile.save();
+
+        return res.send(profile);
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ msg: error.message });
+    }
+})
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repos from Github
+// @access  Public
+router.get('/github/:username', async (req, res) => {
+    try {
+        const options = {
+            uri: `https://api.github.com/users/${req.params.username}/repos?pre+page=5&sort=created:asc&client_id=${config.get("githubClientId")}&client_secret=${config.get("githubSecret")}`,
+            method: 'GET',
+            headers: { 'user-agent': 'node.js' },
+        };
+
+        request(options, (error, response, body) => {
+            if (error) console.error(error.message);
+
+            if (response.statusCode !== 200) {
+                return res.status(404).json({ msg: 'No Github profile found' });
+            }
+
+            return res.json(JSON.parse(body));
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
     }
 })
 

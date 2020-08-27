@@ -24,19 +24,14 @@ const PostSchema = new Schema({
             }
         }
     ],
-    dislikes: [
-        {
-            user: {
-                type: Schema.Types.ObjectId,
-                ref: 'users'
-            }
-        }
-    ],
     comments: [
         {
             user: {
                 type: Schema.Types.ObjectId,
                 ref: 'users'
+            },
+            name: {
+                type: String
             },
             text: {
                 type: String,

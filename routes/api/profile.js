@@ -232,7 +232,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
         }
 
         profile.experience =
-            profile.experience.filter(exp => exp.id !== req.params.exp_id);;
+            profile.experience.filter(exp => exp.id !== req.params.exp_id);
 
         // this one also works
         // const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);

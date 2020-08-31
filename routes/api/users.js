@@ -88,6 +88,7 @@ router.post('/', [
 
         // res.status(200).send('User registered');
     } catch (error) {
+        console.error(error.message);
         res.status(500).json({ msg: error.message });
     }
 })

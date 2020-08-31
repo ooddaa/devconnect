@@ -1,7 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
 
-const Register = () => {
+// import axios from 'axios';
+
+const Register = ({ setAlert }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -11,13 +16,22 @@ const Register = () => {
 
     const { name, email, password, password2 } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-
         if (password !== password2) {
-            console.log("passwords don't match");
+            // console.log("passwords don't match");
+            setAlert("Passwords don't match", "danger", 4000); // 2 seconds
         } else {
-            console.log(formData);
+            // const newUser = { name, email, password };
+            // const config = { headers: { "Content-Type": "application/json" } };
+            // const body = JSON.stringify(newUser);
+            // try {
+            //     const res = await axios.post('/api/users', body, config);
+            //     console.log(res.data);
+            // } catch (error) {
+            //     console.log(error)
+            // }
+            console.log("Success");
         }
     }
 
@@ -63,5 +77,13 @@ const Register = () => {
     )
 }
 
-export default Register
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+}
+
+/* now I need to connect component to redux store? and to actions? */
+export default connect(
+    null /* put state aka mapStateToProps here */,
+    { setAlert } /* put actions here */
+)(Register);
 

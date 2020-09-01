@@ -2,11 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
+import { storeFormInput } from '../../actions/storeFormInput';
 import PropTypes from 'prop-types';
 
 // import axios from 'axios';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, storeFormInput }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -34,12 +35,17 @@ const Register = ({ setAlert }) => {
             console.log("Success");
         }
     }
+    const onInput = e => {
+        e.preventDefault();
+        console.log('input: ', e.target.value);
+        storeFormInput(e.target.value)
+    }
 
     return (
         <Fragment>
             <h1 className="large text-primary">Sign Up</h1>
             <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
-            <form className="form" onSubmit={e => onSubmit(e)}>
+            <form className="form" onSubmit={e => onSubmit(e)} onInput={e => onInput(e)}>
                 <div className="form-group">
                     <input type="text" placeholder="Name" name="name" value={name} onChange={e => onChange(e)} required />
                 </div>
@@ -53,7 +59,7 @@ const Register = ({ setAlert }) => {
                         type="password"
                         placeholder="Password"
                         name="password"
-                        minLength="6"
+                        minLength="1"
                         value={password} onChange={e => onChange(e)}
                         required
                     />
@@ -63,7 +69,7 @@ const Register = ({ setAlert }) => {
                         type="password"
                         placeholder="Confirm Password"
                         name="password2"
-                        minLength="6"
+                        minLength="1"
                         value={password2} onChange={e => onChange(e)}
                         required
                     />
@@ -84,6 +90,6 @@ Register.propTypes = {
 /* now I need to connect component to redux store? and to actions? */
 export default connect(
     null /* put state aka mapStateToProps here */,
-    { setAlert } /* put actions here */
+    { setAlert, storeFormInput } /* put available actions here */
 )(Register);
 

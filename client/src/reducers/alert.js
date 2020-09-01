@@ -8,7 +8,11 @@ const initialState = [
     // }
 ];
 
-export default function (state = initialState, action) {
+// it's called a reducer, it's really a state-updater.
+// where is it used? it's imported in ./index.js
+// it's used to set up Redux store in ./store.js
+// this is connect(null, { setAlert })(Register) ?
+export default function (state = initialState, action) /* : Object[] */ {
     // evaluate type
     const { payload, type } = action
     switch (type) {

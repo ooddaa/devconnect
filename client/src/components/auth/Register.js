@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { storeFormInput } from '../../actions/storeFormInput';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
-// import axios from 'axios';
-
-const Register = ({ setAlert, storeFormInput }) => {
+const Register = ({ setAlert, storeFormInput, register }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -20,19 +20,9 @@ const Register = ({ setAlert, storeFormInput }) => {
     const onSubmit = async e => {
         e.preventDefault();
         if (password !== password2) {
-            // console.log("passwords don't match");
-            setAlert("Passwords don't match", "danger", 4000); // 2 seconds
+            setAlert("Passwords don't match", "danger", 4000);
         } else {
-            // const newUser = { name, email, password };
-            // const config = { headers: { "Content-Type": "application/json" } };
-            // const body = JSON.stringify(newUser);
-            // try {
-            //     const res = await axios.post('/api/users', body, config);
-            //     console.log(res.data);
-            // } catch (error) {
-            //     console.log(error)
-            // }
-            console.log("Success");
+            register({ name, email, password });
         }
     }
     const onInput = e => {
@@ -47,10 +37,24 @@ const Register = ({ setAlert, storeFormInput }) => {
             <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
             <form className="form" onSubmit={e => onSubmit(e)} onInput={e => onInput(e)}>
                 <div className="form-group">
-                    <input type="text" placeholder="Name" name="name" value={name} onChange={e => onChange(e)} required />
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        name="name"
+                        value={name}
+                        onChange={e => onChange(e)}
+
+                    />
                 </div>
                 <div className="form-group">
-                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+                    <input
+                        type="email"
+                        placeholder="Email Address"
+                        name="email"
+                        value={email}
+                        onChange={e => onChange(e)}
+
+                    />
                     <small className="form-text">This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small>
                 </div>
@@ -59,9 +63,9 @@ const Register = ({ setAlert, storeFormInput }) => {
                         type="password"
                         placeholder="Password"
                         name="password"
-                        minLength="1"
+
                         value={password} onChange={e => onChange(e)}
-                        required
+
                     />
                 </div>
                 <div className="form-group">
@@ -69,9 +73,9 @@ const Register = ({ setAlert, storeFormInput }) => {
                         type="password"
                         placeholder="Confirm Password"
                         name="password2"
-                        minLength="1"
+
                         value={password2} onChange={e => onChange(e)}
-                        required
+
                     />
                 </div>
                 <input type="submit" className="btn btn-primary" value="Register" />
@@ -85,11 +89,12 @@ const Register = ({ setAlert, storeFormInput }) => {
 
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
 }
 
 /* now I need to connect component to redux store? and to actions? */
 export default connect(
     null /* put state aka mapStateToProps here */,
-    { setAlert, storeFormInput } /* put available actions here */
+    { setAlert, storeFormInput, register } /* put available actions here */
 )(Register);
 

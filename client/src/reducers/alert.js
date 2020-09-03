@@ -8,6 +8,10 @@ const initialState = [
     // }
 ];
 
+// Changes are made with pure functions: To specify how the state 
+// tree is transformed by actions, you write pure reducers.
+// https://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/
+
 // it's called a reducer, it's really a state-updater.
 // where is it used? it's imported in ./index.js
 // it's used to set up Redux store in ./store.js

@@ -1,13 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { storeFormInput } from '../../actions/storeFormInput';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
-const Register = ({ setAlert, storeFormInput, register }) => {
+const Register = ({ setAlert, storeFormInput, register, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -29,6 +28,11 @@ const Register = ({ setAlert, storeFormInput, register }) => {
         e.preventDefault();
         console.log('input: ', e.target.value);
         storeFormInput(e.target.value)
+    }
+
+    // Redirect if logged in
+    if (isAuthenticated) {
+        return <Redirect to='/dashbord' />;
     }
 
     return (
@@ -90,11 +94,16 @@ const Register = ({ setAlert, storeFormInput, register }) => {
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
 }
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
 
 /* now I need to connect component to redux store? and to actions? */
 export default connect(
-    null /* put state aka mapStateToProps here */,
+    mapStateToProps /* put state aka mapStateToProps here */,
     { setAlert, storeFormInput, register } /* put available actions here */
 )(Register);
 

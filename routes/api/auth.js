@@ -44,33 +44,28 @@ router.post('/', [
         }
 
         // make sure password match
-
-
-        // jsonwebtoken
         const isMatch = await bcrypt.compare(password, user.password);
-
         if (!isMatch) {
             throw new Error('Invalid credentials');
         }
 
+        // jsonwebtoken
         const payload = {
             user: {
                 id: user.id,
             }
         }
         const secret = config.get('jwtSecret');
-        jwt.sign(payload, secret, { expiresIn: 36*1e10 }, (err, token) => {
+        jwt.sign(payload, secret, { expiresIn: 36 * 1e10 }, (err, token) => {
             if (err) throw err;
-            res.json({ token });
+            return res.json({ token });
         });
-
-        // res.status(200).send('User registered');
     } catch (error) {
-        res.status(500).json({ msg: error.message });
+        res.status(500).json({ errors: [{ msg: error.message }] });
     }
-    
 
-    
+
+
 })
 
 module.exports = router

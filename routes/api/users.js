@@ -26,9 +26,9 @@ router.get('/all', async (req, res) => {
 // @desc    Register Users
 // @access  Public
 router.post('/', [
-    check('name', 'name is required').not().isEmpty(),
+    check('name', 'Username is required').not().isEmpty(),
     check('password', 'Mininum 6 characters').isLength({ min: 6 }),
-    check('email', 'email is required yo').isEmail()
+    check('email', 'Email is required').isEmail()
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -88,8 +88,12 @@ router.post('/', [
 
         // res.status(200).send('User registered');
     } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ msg: error.message });
+        // console.error(error.message);
+        // res.status(500).json({ msg: error.message });
+
+        // this should really be specific to type of error
+        // console.error(error)
+        return res.status(500).json({ errors: [{ msg: error.message }] })
     }
 })
 

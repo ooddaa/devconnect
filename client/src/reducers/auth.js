@@ -1,4 +1,12 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, USER_LOG_IN_SUCCESS, USER_LOG_IN_FAIL } from '../actions/types';
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    USER_LOG_IN_SUCCESS,
+    USER_LOG_IN_FAIL,
+    USER_LOG_OUT,
+} from '../actions/types';
 
 const initialState = {
     token: localStorage.getItem('token'), // bad if we dispatch loadUser from another action (like loginUser)
@@ -36,6 +44,7 @@ export default function (state = initialState, { payload, type }) {
         case REGISTER_FAIL:
         case AUTH_ERROR:
         case USER_LOG_IN_FAIL:
+        case USER_LOG_OUT:
             localStorage.removeItem('token');
             return {
                 ...state,

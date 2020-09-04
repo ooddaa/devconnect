@@ -9,3 +9,4 @@ export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const USER_LOG_IN_SUCCESS = 'USER_LOG_IN_SUCCESS';
 export const USER_LOG_IN_FAIL = 'USER_LOG_IN_FAIL';
+export const USER_LOG_OUT = 'USER_LOG_OUT';

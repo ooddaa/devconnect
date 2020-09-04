@@ -32,7 +32,7 @@ const Register = ({ setAlert, storeFormInput, register, isAuthenticated }) => {
 
     // Redirect if logged in
     if (isAuthenticated) {
-        return <Redirect to='/dashbord' />;
+        return <Redirect to='/dashboard' />;
     }
 
     return (
@@ -97,6 +97,7 @@ Register.propTypes = {
     isAuthenticated: PropTypes.bool,
 }
 
+/* State is shared between components. We access only what we need */
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 })

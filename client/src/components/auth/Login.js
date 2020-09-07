@@ -12,15 +12,17 @@ const Login = ({ loginUser, isAuthenticated }) => {
     });
 
     const { email, password } = formData;
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
-    const onSubmit = async e => {
+
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = e => {
         e.preventDefault();
-        // console.log("Success");
         loginUser({ email, password });
-    }
+    };
 
     // Redirect if logged in
     if (isAuthenticated) {
+        console.log('redirection to dashboard')
         return <Redirect to='/dashboard' />;
     }
 
@@ -30,7 +32,14 @@ const Login = ({ loginUser, isAuthenticated }) => {
             <p className="lead"><i className="fas fa-user"></i> Sign Into Your Account</p>
             <form className="form" onSubmit={e => onSubmit(e)}>
                 <div className="form-group">
-                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+                    <input
+                        type="email"
+                        placeholder="Email Address"
+                        name="email"
+                        value={email}
+                        onChange={e => onChange(e)}
+                        required
+                    />
                 </div>
                 <div className="form-group">
                     <input
@@ -42,7 +51,11 @@ const Login = ({ loginUser, isAuthenticated }) => {
                         required
                     />
                 </div>
-                <input type="submit" className="btn btn-primary" value="Login" />
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Login"
+                />
             </form>
             <p className="my-1">
                 Don't have an account? <Link to="/register">Sign In</Link>

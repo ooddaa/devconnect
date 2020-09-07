@@ -10,3 +10,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const USER_LOG_IN_SUCCESS = 'USER_LOG_IN_SUCCESS';
 export const USER_LOG_IN_FAIL = 'USER_LOG_IN_FAIL';
 export const USER_LOG_OUT = 'USER_LOG_OUT';
+export const GET_PROFILE = 'GET_PROFILE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';

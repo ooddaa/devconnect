@@ -9,6 +9,7 @@ import {
     USER_LOG_IN_SUCCESS,
     USER_LOG_IN_FAIL,
     USER_LOG_OUT,
+    CLEAR_PROFILE,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -74,6 +75,7 @@ export const loginUser = ({ password, email }) => async dispatch => {
 
     } catch (error) {
         const { errors } = error.response.data;
+        console.log(error)
         if (errors) {
             errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 5000)));
         }
@@ -84,4 +86,7 @@ export const loginUser = ({ password, email }) => async dispatch => {
 }
 
 // Logout User
-export const logoutUser = () => async dispatch => dispatch({ type: USER_LOG_OUT });
+export const logoutUser = () => async dispatch => {
+    dispatch({ type: CLEAR_PROFILE });
+    dispatch({ type: USER_LOG_OUT });
+}

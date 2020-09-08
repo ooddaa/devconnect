@@ -73,7 +73,6 @@ router.post('/', [auth, [
     if (skills) {
         profileFields.skills = skills.split(',').map(sk => sk.trim());
     }
-    // return res.status(200).json({ msg: 'All ok', skills: profileFields.skills })
 
     // Build social object
     profileFields.social = {};

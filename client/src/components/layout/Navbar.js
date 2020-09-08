@@ -52,5 +52,4 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, { logoutUser })(Navbar);
 
-// hmm
 

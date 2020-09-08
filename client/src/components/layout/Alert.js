@@ -13,6 +13,11 @@ Alert.propTypes = {
     alerts: PropTypes.array.isRequired,
 }
 
+// Alert component is subscribed to store and listening to the alerts 
+// which appear there once UI dispatches a setAlert action and alert 
+// reducer updates the state.
+// Since we want to update the UI, we need this component to render smth
+// based on current state.
 const mapStateToProps = state => ({
     alerts: state.alert // what's in main reducer? aka '../../reducers/index.js' 
 })

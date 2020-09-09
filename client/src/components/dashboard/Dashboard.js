@@ -21,7 +21,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
                 />{' '}
                 Welcome {user && user.name}
             </p>
-            <p>
+            <Fragment>
                 {profile !== null
                     ? (<Fragment> <DashboardActions /> </Fragment>)
                     : (<Fragment>
@@ -30,7 +30,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
                             Create Profile
                     </Link>
                     </Fragment>)}
-            </p>
+            </Fragment>
         </Fragment>)
 }
 

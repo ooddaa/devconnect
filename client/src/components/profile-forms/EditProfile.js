@@ -37,6 +37,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
 
     const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
+    // try loading current profile values
     useEffect(() => {
         getCurrentProfile();
 

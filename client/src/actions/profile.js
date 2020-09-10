@@ -22,7 +22,7 @@ export const getCurrentProfile = () => async dispatch => {
             payload: res.data // a profile
         })
     } catch (error) {
-        // console.log
+        console.log('getCurrentProfile PROFILE_ERROR', error);
         dispatch({
             type: PROFILE_ERROR,
             payload: {
@@ -35,7 +35,6 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all profiles
 export const getProfiles = () => async dispatch => {
-
     try {
         const res = await axios.get('/api/profile/all');
 
@@ -44,6 +43,7 @@ export const getProfiles = () => async dispatch => {
             payload: res.data // profiles
         })
     } catch (error) {
+        console.log('getProfiles PROFILE_ERROR', error);
         dispatch({
             type: PROFILE_ERROR,
             payload: {
@@ -58,14 +58,14 @@ export const getProfiles = () => async dispatch => {
 export const getProfileById = userId => async dispatch => {
 
     try {
-        const res = await axios.get(`/api/profile/${userId}`);
+        const res = await axios.get(`/api/profile/user/${userId}`);
 
         dispatch({
             type: GET_PROFILE,
             payload: res.data
         })
     } catch (error) {
-        // console.log
+        console.log('getProfileById PROFILE_ERROR', error);
         dispatch({
             type: PROFILE_ERROR,
             payload: {
@@ -87,6 +87,7 @@ export const getRepos = username => async dispatch => {
             payload: res.data
         })
     } catch (error) {
+        console.log('getRepos PROFILE_ERROR', error);
         dispatch({
             type: PROFILE_ERROR,
             payload: {

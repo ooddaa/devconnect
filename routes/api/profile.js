@@ -95,7 +95,8 @@ router.post('/', [auth, [
                 { new: true }
             );
 
-            return res.status(200).json({ msg: 'Profile has been updated', profile });
+            // return res.status(200).json({ msg: 'Profile has been updated', profile });
+            return res.status(200).send(profile);
         }
 
         // Create new Profile
@@ -119,7 +120,7 @@ router.get('/all', async (req, res) => {
     try {
         const profiles = await Profile.find().populate('user', ['name', 'avatar']);
 
-        return res.status(200).json({ msg: "Getting all profiles", profiles });
+        return res.status(200).send(profiles);
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error');

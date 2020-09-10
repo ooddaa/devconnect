@@ -13,9 +13,10 @@ const AddEducation = ({ addEducation, history }) => {
         to: '',
         current: false,
         description: ''
-    }
+    };
+
     const [formData, setFromData] = useState(Object.assign({}, emptyForm));
-    const [toDateDisabled, toggleDisabled] = useState(false);
+
     const {
         school,
         degree,

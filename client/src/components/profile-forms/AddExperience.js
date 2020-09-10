@@ -15,7 +15,7 @@ const AddExperience = ({ addExperience, history }) => {
         current: false,
         description: ''
     });
-    const [toDateDisabled, toggleDisabled] = useState(false);
+
     const {
         title,
         company,

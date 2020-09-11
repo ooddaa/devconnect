@@ -10,8 +10,8 @@ const Education = ({ education, deleteEducation }) => {
             <td>{edu.school}</td>
             <td className="hide-sm">{edu.degree}</td>
             <td>
-                <Moment format='YYYY-MM-DD'>{edu.from}</Moment> - {' '}
-                {edu.to === undefined ? (' Now') : (<Moment format='YYYY-MM-DD'>{edu.to}</Moment>)}
+                <Moment format='YYYY/MM/DD'>{edu.from}</Moment> - {' '}
+                {edu.to === undefined ? (' Now') : (<Moment format='YYYY/MM/DD'>{edu.to}</Moment>)}
             </td>
             <td>
                 <button className="btn btn-danger" onClick={() => deleteEducation(edu._id)}>Delete</button>

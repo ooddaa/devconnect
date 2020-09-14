@@ -114,52 +114,54 @@ router.delete('/delete/:post_id', auth, async (req, res) => {
     }
 })
 
-// @route   POST api/posts/like/:post_id
-// @desc    Like by post_id
+// @route   PUT api/posts/like/:post_id
+// @desc    Like a post
 // @access  Private
-router.post('/like/:post_id', auth, async (req, res) => {
+router.put('/like/:post_id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.post_id);
 
-        if (!post) {
-            return res.status(500).json({ msg: 'Post not found' });
-        }
+        // if (!post) {
+        //     // Not good, better to throw
+        //     throw new Error()
+        //     // return res.status(500).json({ msg: 'Post not found' });
+        // }
 
         // user cannot like his own post...
-        if (post.user.toString() === req.user.id) {
-            return res.status(400).json({ msg: "Users cannot add likes to their own posts" });
-        }
+        // if (post.user.toString() === req.user.id) {
+        //     return res.status(400).json({ msg: "Users cannot add likes to their own posts" });
+        // }
 
         // Has this user already liked this post?
         const { likes } = post;
         if (likes.map(user => user.user).includes(req.user.id)) {
-            return res.json({ msg: "One like per post" });
-        } else {
-            post.likes.unshift({ user: req.user.id });
-            await post.save();
-            return res.json(post);
+            return res.status(400).json({ msg: "One like per post" });
         }
+
+        post.likes.unshift({ user: req.user.id });
+        await post.save();
+        return res.json(post.likes);
     } catch (error) {
         console.log(error.message);
-        return res.status(500).json({ msg: error.message });
+        return res.status(500).json({ errors: [{ msg: error.message }] });
     }
 })
 
-// @route   DELETE api/posts/like/:post_id
-// @desc    Delete a like by post_id
+// @route   PUT api/posts/unlike/:post_id
+// @desc    Unlike a post
 // @access  Private
-router.delete('/like/:post_id', auth, async (req, res) => {
+router.put('/unlike/:post_id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.post_id);
 
-        if (!post) {
-            return res.status(500).json({ msg: 'Post not found' });
-        }
+        // if (!post) {
+        //     return res.status(500).json({ msg: 'Post not found' });
+        // }
 
         // user cannot unlike his own post...
-        if (post.user.toString() === req.user.id) {
-            return res.status(400).json({ msg: "Users cannot remove likes to their own posts" });
-        }
+        // if (post.user.toString() === req.user.id) {
+        //     return res.status(400).json({ msg: "Users cannot remove likes to their own posts" });
+        // }
 
         // Has this user already liked this post?
         const { likes } = post;
@@ -167,13 +169,13 @@ router.delete('/like/:post_id', auth, async (req, res) => {
             // filter out likes by this user
             post.likes = post.likes.filter(like => like.user.toString() !== req.user.id);
             await post.save();
-            return res.json({ msg: "Like removed" });
-        } else {
-            return res.status(400).json({ msg: "No likes by this user" });
+            return res.json(post.likes);
         }
+
+        return res.status(400).json({ msg: 'Post has not yet been liked' });
     } catch (error) {
         console.log(error.message);
-        return res.status(500).json({ msg: error.message });
+        return res.status(500).json({ errors: [{ msg: error.message }] });
     }
 })
 

@@ -19,7 +19,6 @@ router.post('/', [auth, [
     }
 
     try {
-        // const user = await User.findOne({ _id: req.user.id }).select('-password');
         const user = await User.findById(req.user.id).select('-password');
 
         const newPost = new Post({
@@ -34,7 +33,7 @@ router.post('/', [auth, [
         return res.json(post);
     } catch (error) {
         console.log(error.message);
-        return res.status(500).json({ msg: error.message });
+        return res.status(500).json({ errors: [{ msg: error.message }] });
     }
 })
 
@@ -110,7 +109,7 @@ router.delete('/delete/:post_id', auth, async (req, res) => {
         if (error.kind === 'ObjectId') {
             return res.status(500).json({ msg: 'Post not found' });
         }
-        return res.status(500).json({ msg: error.message });
+        return res.status(500).json({ errors: [{ msg: error.message }] });
     }
 })
 

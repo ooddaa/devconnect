@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { logoutUser } from '../../actions/auth';
+import { getPosts } from '../../actions/post';
 
 /**
  * if User isAuthenticated, replace Login with Logout.
  */
-const Navbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logoutUser, getPosts }) => {
     const authLinks = (<ul>
         <li><Link to="/profiles">Developers</Link></li>
-        <li><Link to="/posts">Posts</Link></li>
+        <li><Link to="/posts" onClick={() => {
+            // console.log('Link posts getPosts() clicked')
+            getPosts()
+        }}>Posts</Link></li>
         <li>
             <Link to="/dashboard">
                 <i className="fas fa-user"></i>{' '}
@@ -46,12 +50,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
 Navbar.propTypes = {
     auth: PropTypes.object,
     logoutUser: PropTypes.func.isRequired,
+    getPosts: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
 })
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, getPosts })(Navbar);
 
 

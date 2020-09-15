@@ -25,3 +25,6 @@ export const POST_ERROR = 'POST_ERROR';
 export const UPDATE_LIKES = 'UPDATE_LIKES';
 export const POST_DELETED = 'POST_DELETED';
 export const ADD_POST = 'ADD_POST';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const REMOVE_POST = 'REMOVE_POST';

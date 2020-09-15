@@ -209,7 +209,7 @@ router.post('/comment/:post_id', [auth, [
         post.comments.unshift(newComment);
         await post.save();
 
-        return res.json(post);
+        return res.json(post.comments);
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({ msg: error.message });
@@ -236,7 +236,7 @@ router.delete('/comment/:post_id/:comment_id', auth, async (req, res) => {
         if (removeIndex !== -1) {
             comments.splice(removeIndex, 1);
             await post.save();
-            return res.json({ msg: "Comment removed", comments: post.comments });
+            return res.json(post.comments);
         } else {
             return res.status(400).json({ msg: "No such comment" });
         }

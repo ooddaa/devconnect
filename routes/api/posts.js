@@ -56,12 +56,18 @@ router.get('/', auth, async (req, res) => {
 router.get('/by_post/:post_id', auth, async (req, res) => {
     try {
         // users can search other users posts 
-        const posts = await Post.find({ _id: req.params.post_id });
+        // const posts = await Post.find({ _id: req.params.post_id });
 
-        if (!posts.length) {
+        // if (!posts.length) {
+        //     return res.status(404).json({ msg: 'Post not found' });
+        // }
+        // return res.json(posts);
+        const post = await Post.findById(req.params.post_id);
+
+        if (!post) {
             return res.status(404).json({ msg: 'Post not found' });
         }
-        return res.json(posts);
+        return res.json(post)
     } catch (error) {
         console.log(error.message);
         if (error.kind === 'ObjectId') {

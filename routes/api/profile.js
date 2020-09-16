@@ -105,7 +105,8 @@ router.post('/', [auth, [
         // !WRITE! to database
         await profile.save();
 
-        return res.status(200).json({ msg: 'New profile saved', profile });
+        // return res.status(200).json({ msg: 'New profile saved', profile });
+        return res.status(200).json(profile);
 
     } catch (error) {
         console.error(error.message);

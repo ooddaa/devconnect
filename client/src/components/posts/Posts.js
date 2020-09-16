@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/post';
 import Spinner from '../layout/Spinner';
 import PropTypes from 'prop-types';
 import PostItem from './PostItem';

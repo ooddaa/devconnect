@@ -6,7 +6,7 @@ import { getRepos } from '../../actions/profile';
 const ProfileGitHub = ({ username, getRepos, repos }) => {
     useEffect(() => {
         getRepos(username);
-    }, [getRepos])
+    }, [getRepos, username])
 
     const formatUrl = url => url.includes("http") ? url : `http://${url}`;
 

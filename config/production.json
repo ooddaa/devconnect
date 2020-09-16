@@ -1,6 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://oda_user:oda_userQqqwwe!23@oda1.udkui.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "kekek",
-    "githubClientId": "75a7a1a042e659760e1e",
-    "githubSecret": "19cc0369c7e9bd8266403b6daa814122d4df0721"
-}
